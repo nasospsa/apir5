@@ -8,6 +8,11 @@ class PagesController < ApplicationController
     render json: @pages
   end
 
+  def new
+    @page = Page.new
+    render json: @page
+  end
+
   # GET /pages/1
   def show
     render json: @page

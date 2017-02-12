@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.includes(:category, :tags).all
 
     respond_to do |format|
       format.json { render json: @posts }

@@ -8,6 +8,11 @@ class CategoriesController < ApplicationController
     render json: @categories
   end
 
+  def new
+    @category = Category.new
+    render json: @category
+  end
+
   # GET /categories/1
   def show
     render json: @category

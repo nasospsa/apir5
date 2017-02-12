@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :published, :created, :category
+  attributes :id, :title, :body, :published, :created, :category, :tags
 
   def category
     object.category && CategorySerializer.new(object.category)
