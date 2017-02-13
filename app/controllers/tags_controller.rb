@@ -8,6 +8,11 @@ class TagsController < ApplicationController
     render json: @tags
   end
 
+  def new
+    @tag = Tag.new
+    render json: @tag
+  end
+
   # GET /tags/1
   def show
     render json: @tag

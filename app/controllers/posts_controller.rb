@@ -24,7 +24,7 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    @post = Post.new(build_tags post_params)
 
     if @post.save
       render json: @post, status: :created, location: @post
@@ -35,7 +35,7 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
+    if @post.update(build_tags post_params)
       render json: @post
     else
       render json: @post.errors, status: :unprocessable_entity
@@ -48,13 +48,21 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def post_params
-      params.require(:post).permit(:title, :body, :published, :category_id)
-    end
+  def build_tags(prms)
+    post_attrs = prms.to_h
+    post_attrs['tags'] = post_attrs['tags'].map { |tag_attrs|
+      Tag.find_or_initialize_by tag_attrs['tag']
+    }
+    post_attrs
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def post_params
+    params.require(:post).permit(:title, :body, :published, :category_id, tags: [tag: :key])
+  end
 end
