@@ -3,7 +3,7 @@ class TagsController < ApplicationController
 
   # GET /tags
   def index
-    @tags = Tag.all
+    @tags = Tag.includes(:posts).all
 
     render json: @tags
   end
